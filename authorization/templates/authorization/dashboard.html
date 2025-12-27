@@ -1,0 +1,10 @@
+<h1>Dashboard</h1>
+
+<p>User: {{ request.user.username }}</p>
+<p>Role: {{ request.user.role }}</p>
+
+<a href="{% url 'logout' %}">Logout</a>
+
+{% if request.user.role == 'admin' %}
+    <p>Admin only content</p>
+{% endif %}
