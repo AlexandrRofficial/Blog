@@ -1,0 +1,10 @@
+<h2>{{ title }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button class="btn btn-success">Save</button>
+    <a href="javascript:history.back()"
+       class="btn btn-secondary">Cancel</a>
+</form>

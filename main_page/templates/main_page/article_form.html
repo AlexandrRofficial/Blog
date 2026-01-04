@@ -1,0 +1,7 @@
+<h2>{% if edit %}Edit Article{% else %}Create Article{% endif %}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button>Save</button>
+</form>

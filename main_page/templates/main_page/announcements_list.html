@@ -1,0 +1,26 @@
+<h2>Announcements</h2>
+
+{% if user.role == 'admin' %}
+    <a href="{% url 'announcement_create' %}" class="btn btn-success mb-3">
+        + Add announcement
+    </a>
+{% endif %}
+
+{% for ann in announcements %}
+    <div class="alert alert-info">
+        <h5>{{ ann.title }}</h5>
+        <p>{{ ann.content }}</p>
+
+        {% if user.role == 'admin' %}
+            <a href="{% url 'announcement_edit' ann.id %}" class="btn btn-sm btn-warning">
+                Edit
+            </a>
+
+            <a href="{% url 'announcement_delete' ann.id %}" class="btn btn-sm btn-danger">
+                Delete
+            </a>
+        {% endif %}
+    </div>
+{% empty %}
+    <p>No announcements</p>
+{% endfor %}

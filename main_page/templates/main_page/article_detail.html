@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>{{ article.title }}</h2>
+    <p>{{ article.content }}</p>
+
+    <hr>
+
+    <h4>
+        Comments ({{ comments.count }})
+    </h4>
+
+    {% for comment in comments %}
+        <div class="card mb-2">
+            <div class="card-body">
+                <p>{{ comment.text }}</p>
+                <small>
+                    {{ comment.author.username }} |
+                    {{ comment.created_at|date:"d.m.Y H:i" }}
+                </small>
+
+                {% if user.is_authenticated %}
+                    {% if user.role == 'admin' or user == article.author %}
+                        <a href="{% url 'delete_comment' comment.id %}"
+                        class="btn btn-sm btn-danger float-end">
+                            Delete
+                        </a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    {% empty %}
+        <p>No comments yet</p>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'add_comment' article.id %}"
+        class="btn btn-primary mt-3">
+            Write a comment
+        </a>
+    {% else %}
+        <p><a href="{% url 'login' %}">Login</a> to write a comment</p>
+    {% endif %}
+</body>
+</html>

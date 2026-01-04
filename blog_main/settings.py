@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "authorization"
+    "authorization",
+    "main_page",
 ]
 
 MIDDLEWARE = [
@@ -122,10 +123,12 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = 'authorization.User'
-
 LOGIN_URL = 'login'
 
-LOGIN_REDIRECT_URL = 'dashboard'
+AUTH_USER_MODEL = 'authorization.User'
+
+LOGIN_REDIRECT_URL = '/auth/profile/'
 
 LOGOUT_REDIRECT_URL = 'login'
+
+ADMIN_REQUIRES_SUPERUSER = True
