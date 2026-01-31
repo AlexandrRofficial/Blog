@@ -8,9 +8,15 @@ from .forms import ArticleForm, CommentForm, CategoryForm, TagForm, Announcement
 
 from django.http import HttpResponseForbidden
 
-from django.db import models
-
 from django.db.models import Q, Count
+
+from django.http import JsonResponse
+
+from rest_framework.viewsets import ModelViewSet
+
+# from .serializers import ArticleSerializer
+
+from django.http import HttpResponseForbidden
 
 def main_page(request):
     sort = request.GET.get('sort', 'latest')
@@ -260,17 +266,25 @@ def tag_delete(request, pk):
 
 @login_required
 def toggle_like(request, article_id):
-    article = get_object_or_404(Article, id=article_id)
+    if request.method == 'POST':
+        article = get_object_or_404(Article, id=article_id)
 
-    like, created = Like.objects.get_or_create(
-        user=request.user,
-        article=article
-    )
+        like = Like.objects.filter(
+            user=request.user,
+            article=article
+        )
 
-    if not created:
-        like.delete()
+        if like.exists():
+            like.delete()
+        else:
+            Like.objects.create(
+                user=request.user,
+                article=article
+            )
 
-    return redirect('main_page')
+        return JsonResponse({
+            'likes_count': article.likes.count()
+        })
 
 def is_admin(user):
     return user.is_authenticated and user.role == 'admin'
@@ -326,3 +340,7 @@ def announcement_delete(request, pk):
         'main_page/announcement_confirm_delete.html',
         {'announcement': announcement}
     )
+
+# class ArticleViewSet(ModelViewSet):
+    # queryset = Article.objects.all()
+    # serializer_class = ArticleSerializer
