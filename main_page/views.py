@@ -12,7 +12,7 @@ from django.db.models import Q, Count
 
 from django.http import JsonResponse
 
-from rest_framework.viewsets import ModelViewSet
+# from rest_framework.viewsets import ModelViewSet
 
 # from .serializers import ArticleSerializer
 
