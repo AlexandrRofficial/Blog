@@ -222,7 +222,7 @@
         <div class="alert alert-warning">
 
             <strong>{{ ann.title }}</strong>
-            <p>{{ ann.content|truncatewords:15 }}</p>
+            <p>{{ ann.content }}</p>
 
             {% if user.is_authenticated and user.role == 'admin' %}
                 <div class="mt-2">
